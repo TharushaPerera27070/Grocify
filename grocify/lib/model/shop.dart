@@ -11,8 +11,6 @@ class Product {
   final int reviewCount;
   final bool inStock;
   bool isFavorite;
-  final List<String>? features;
-  final Map<String, String>? specifications;
   final List<String>? relatedProducts;
 
   Product({
@@ -28,8 +26,6 @@ class Product {
     required this.reviewCount,
     required this.inStock,
     this.isFavorite = false,
-    this.features,
-    this.specifications,
     this.relatedProducts,
   });
 }

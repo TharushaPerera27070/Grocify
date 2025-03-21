@@ -6,7 +6,6 @@ import 'package:grocify/widgets/product_details/bottom_purchase_bar.dart';
 import 'package:grocify/widgets/product_details/product_image_viewer.dart';
 import 'package:grocify/widgets/product_details/product_info.dart';
 import 'package:grocify/widgets/product_details/related_products.dart';
-import 'package:grocify/widgets/product_details/specifications_section.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   final String productId;
@@ -68,10 +67,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          _isFavorite ? 'Added to favorites' : 'Removed from favorites',
-          style: GoogleFonts.marcellus(),
+          _isFavorite ? 'Added to wishlist' : 'Removed from wishlist',
+          style: GoogleFonts.poppins(),
         ),
-        backgroundColor: const Color.fromARGB(255, 165, 81, 139),
+        backgroundColor: Colors.green,
         duration: const Duration(seconds: 2),
       ),
     );
@@ -86,9 +85,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       SnackBar(
         content: Text(
           'Added $_quantity ${_product.name} to cart',
-          style: GoogleFonts.marcellus(),
+          style: GoogleFonts.poppins(),
         ),
-        backgroundColor: const Color.fromARGB(255, 165, 81, 139),
+        backgroundColor: Colors.green,
         duration: const Duration(seconds: 2),
       ),
     );
@@ -100,9 +99,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       SnackBar(
         content: Text(
           'Proceeding to checkout...',
-          style: GoogleFonts.marcellus(),
+          style: GoogleFonts.poppins(),
         ),
-        backgroundColor: const Color.fromARGB(255, 165, 81, 139),
+        backgroundColor: Colors.green,
         duration: const Duration(seconds: 2),
       ),
     );
@@ -121,16 +120,14 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ),
           title: Text(
             'Product Details',
-            style: GoogleFonts.marcellus(
+            style: GoogleFonts.poppins(
               color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
         body: const Center(
-          child: CircularProgressIndicator(
-            color: Color.fromARGB(255, 165, 81, 139),
-          ),
+          child: CircularProgressIndicator(color: Colors.green),
         ),
       );
     }
@@ -148,10 +145,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           IconButton(
             icon: Icon(
               _isFavorite ? Icons.favorite : Icons.favorite_border,
-              color:
-                  _isFavorite
-                      ? const Color.fromARGB(255, 165, 81, 139)
-                      : Colors.black,
+              color: _isFavorite ? Colors.green : Colors.black,
             ),
             onPressed: _toggleFavorite,
           ),
@@ -187,12 +181,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         _quantity = newQuantity;
                       });
                     },
-                  ),
-
-                  const SizedBox(height: 24),
-
-                  SpecificationsSection(
-                    specifications: _product.specifications,
                   ),
 
                   const SizedBox(height: 24),

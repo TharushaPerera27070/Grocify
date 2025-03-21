@@ -138,7 +138,7 @@ class _HomeState extends State<Home> {
                         prefixIcon: Icon(Icons.search, color: Colors.grey[600]),
                         border: InputBorder.none,
                         contentPadding: const EdgeInsets.symmetric(
-                          vertical: 15,
+                          vertical: 11,
                         ),
                       ),
                     ),
@@ -197,8 +197,8 @@ class _HomeState extends State<Home> {
                         child: Container(
                           margin: const EdgeInsets.only(right: 16, bottom: 8),
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
+                            horizontal: 25,
+                            vertical: 12,
                           ),
                           decoration: BoxDecoration(
                             color: isSelected ? Colors.green : Colors.grey[200],

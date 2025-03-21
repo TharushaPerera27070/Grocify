@@ -35,12 +35,7 @@ class BottomPurchaseBar extends StatelessWidget {
             child: OutlinedButton(
               onPressed: inStock ? onAddToCart : null,
               style: OutlinedButton.styleFrom(
-                side: BorderSide(
-                  color:
-                      inStock
-                          ? const Color.fromARGB(255, 165, 81, 139)
-                          : Colors.grey,
-                ),
+                side: BorderSide(color: inStock ? Colors.green : Colors.grey),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -48,11 +43,8 @@ class BottomPurchaseBar extends StatelessWidget {
               ),
               child: Text(
                 'Add to Cart',
-                style: GoogleFonts.marcellus(
-                  color:
-                      inStock
-                          ? const Color.fromARGB(255, 165, 81, 139)
-                          : Colors.grey,
+                style: GoogleFonts.poppins(
+                  color: inStock ? Colors.green : Colors.grey,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -66,7 +58,7 @@ class BottomPurchaseBar extends StatelessWidget {
             child: ElevatedButton(
               onPressed: inStock ? onBuyNow : null,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 165, 81, 139),
+                backgroundColor: Colors.green,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -74,7 +66,7 @@ class BottomPurchaseBar extends StatelessWidget {
               ),
               child: Text(
                 'Buy Now',
-                style: GoogleFonts.marcellus(
+                style: GoogleFonts.poppins(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),

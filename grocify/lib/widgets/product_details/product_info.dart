@@ -37,9 +37,9 @@ class _ProductInfoSectionState extends State<ProductInfoSection> {
             ),
             child: Text(
               widget.product.category,
-              style: GoogleFonts.marcellus(
+              style: GoogleFonts.poppins(
                 fontSize: 12,
-                color: Colors.green,
+                color: Colors.white,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -50,9 +50,9 @@ class _ProductInfoSectionState extends State<ProductInfoSection> {
           // Product name
           Text(
             widget.product.name,
-            style: GoogleFonts.marcellus(
+            style: GoogleFonts.poppins(
               fontSize: 24,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w500,
               color: Colors.black,
             ),
           ),
@@ -75,7 +75,7 @@ class _ProductInfoSectionState extends State<ProductInfoSection> {
               const SizedBox(width: 8),
               Text(
                 '${widget.product.rating} (${widget.product.reviewCount} reviews)',
-                style: GoogleFonts.marcellus(
+                style: GoogleFonts.poppins(
                   fontSize: 14,
                   color: Colors.grey[600],
                 ),
@@ -90,9 +90,9 @@ class _ProductInfoSectionState extends State<ProductInfoSection> {
             children: [
               Text(
                 '\Rs.${widget.product.price.toStringAsFixed(2)}',
-                style: GoogleFonts.marcellus(
+                style: GoogleFonts.poppins(
                   fontSize: 28,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w500,
                   color: Colors.black,
                 ),
               ),
@@ -101,7 +101,7 @@ class _ProductInfoSectionState extends State<ProductInfoSection> {
                   widget.product.originalPrice! > widget.product.price)
                 Text(
                   '\Rs.${widget.product.originalPrice!.toStringAsFixed(2)}',
-                  style: GoogleFonts.marcellus(
+                  style: GoogleFonts.poppins(
                     fontSize: 18,
                     decoration: TextDecoration.lineThrough,
                     color: Colors.grey[500],
@@ -122,7 +122,7 @@ class _ProductInfoSectionState extends State<ProductInfoSection> {
               const SizedBox(width: 4),
               Text(
                 widget.product.inStock ? 'In Stock' : 'Out of Stock',
-                style: GoogleFonts.marcellus(
+                style: GoogleFonts.poppins(
                   color: widget.product.inStock ? Colors.green : Colors.red,
                   fontWeight: FontWeight.w500,
                 ),
@@ -137,9 +137,9 @@ class _ProductInfoSectionState extends State<ProductInfoSection> {
             children: [
               Text(
                 'Quantity',
-                style: GoogleFonts.marcellus(
+                style: GoogleFonts.poppins(
                   fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               const SizedBox(width: 16),
@@ -167,7 +167,7 @@ class _ProductInfoSectionState extends State<ProductInfoSection> {
                       ),
                       child: Text(
                         '${widget.quantity}',
-                        style: GoogleFonts.marcellus(
+                        style: GoogleFonts.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -191,9 +191,9 @@ class _ProductInfoSectionState extends State<ProductInfoSection> {
           // Description header
           Text(
             'Description',
-            style: GoogleFonts.marcellus(
+            style: GoogleFonts.poppins(
               fontSize: 18,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w500,
               color: Colors.black,
             ),
           ),
@@ -203,55 +203,12 @@ class _ProductInfoSectionState extends State<ProductInfoSection> {
           // Description
           Text(
             widget.product.description,
-            style: GoogleFonts.marcellus(
+            style: GoogleFonts.poppins(
               fontSize: 14,
               color: Colors.grey[800],
               height: 1.5,
             ),
           ),
-
-          const SizedBox(height: 24),
-
-          // Features header
-          Text(
-            'Features',
-            style: GoogleFonts.marcellus(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
-
-          const SizedBox(height: 8),
-
-          // Features list
-          ...(widget.product.features ?? [])
-              .map(
-                (feature) => Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Icon(
-                        Icons.check_circle,
-                        color: Colors.green,
-                        size: 16,
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          feature,
-                          style: GoogleFonts.marcellus(
-                            fontSize: 14,
-                            color: Colors.grey[800],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-              .toList(),
         ],
       ),
     );
