@@ -21,6 +21,34 @@ class ProductData {
       reviewCount: 245,
       inStock: true,
       relatedProducts: ['31', '32'],
+      reviews: [
+        Review(
+          id: "r001",
+          userName: "Samantha Baddage",
+          //userImage: "",
+          rating: 5.0,
+          comment:
+              "This product is amazing! The quality is top-notch and I highly recommend it!",
+          date: DateTime(2024, 12, 23),
+        ),
+        Review(
+          id: "r002",
+          userName: "Upali Fernando",
+          rating: 4.0,
+          comment: "I love this product! It's tastes really good.",
+          date: DateTime(2025, 02, 28),
+          images: ["assets/images.jpg"],
+          helpfulCount: 12,
+        ),
+        Review(
+          id: "r003",
+          userName: "Thimali Perera",
+          rating: 4.5,
+          comment: "The quality is top-notch and tastes fresh!",
+          date: DateTime(2025, 03, 02),
+          helpfulCount: 5,
+        ),
+      ],
     ),
     Product(
       id: '31',
@@ -34,6 +62,34 @@ class ProductData {
       reviewCount: 310,
       inStock: true,
       relatedProducts: ['30', '32'],
+      reviews: [
+        Review(
+          id: "r001",
+          userName: "Anushka Udana",
+          userImage: "",
+          rating: 5.0,
+          comment:
+              "This product is amazing! The quality is top-notch and I highly recommend it!",
+          date: DateTime(2024, 12, 23),
+        ),
+        Review(
+          id: "r002",
+          userName: "Ruwan Fernando",
+          rating: 4.0,
+          comment: "I love this product! It's tastes really good.",
+          date: DateTime(2025, 02, 28),
+          //images: ["assets/images/review1_1.jpg"],
+          helpfulCount: 12,
+        ),
+        Review(
+          id: "r003",
+          userName: "Kavindu Perera",
+          rating: 4.5,
+          comment: "The quality is top-notch and tastes fresh!",
+          date: DateTime(2025, 03, 02),
+          helpfulCount: 5,
+        ),
+      ],
     ),
     Product(
       id: '32',
@@ -47,6 +103,25 @@ class ProductData {
       reviewCount: 198,
       inStock: true,
       relatedProducts: ['30', '31'],
+      reviews: [
+        Review(
+          id: "r004",
+          userName: "Nimesha Perera",
+          userImage: "",
+          rating: 4.5,
+          comment:
+              "The quality is top-notch and tastes fresh! I would definitely recommend it.",
+          date: DateTime(2025, 03, 10),
+        ),
+        Review(
+          id: "r005",
+          userName: "Samantha Jayasuriya",
+          rating: 4.0,
+          comment: "I love this product! It's tastes really good",
+          date: DateTime(2025, 02, 25),
+          helpfulCount: 8,
+        ),
+      ],
     ),
     Product(
       id: '33',
@@ -59,7 +134,18 @@ class ProductData {
       rating: 4.6,
       reviewCount: 275,
       inStock: true,
-      relatedProducts: ['31', '33'],
+      relatedProducts: ['31', '32'],
+      reviews: [
+        Review(
+          id: "r006",
+          userName: "Chamathka Silva",
+          userImage: "assets/images/user2.jpg",
+          rating: 5.0,
+          comment:
+              "I absolutely love this product! The quality is top-notch and tastes fresh!",
+          date: DateTime(2024, 11, 05),
+        ),
+      ],
     ),
     Product(
       id: '34',
@@ -73,6 +159,16 @@ class ProductData {
       reviewCount: 400,
       inStock: true,
       relatedProducts: ['36', '35'],
+      reviews: [
+        Review(
+          id: "r007",
+          userName: "Dilki Perera",
+          userImage: "",
+          rating: 4.5,
+          comment: "Love this product!",
+          date: DateTime(2024, 03, 08),
+        ),
+      ],
     ),
     Product(
       id: '35',
@@ -86,6 +182,25 @@ class ProductData {
       reviewCount: 220,
       inStock: true,
       relatedProducts: ['36', '34'],
+      reviews: [
+        Review(
+          id: "r008",
+          userName: "Kasun Perera",
+          userImage: "",
+          rating: 4.5,
+          comment:
+              "The quality is top-notch and tastes fresh! I would definitely recommend it.",
+          date: DateTime(2025, 03, 10),
+        ),
+        Review(
+          id: "r009",
+          userName: "Thamalka De Silva",
+          userImage: "",
+          rating: 4.5,
+          comment: "The quality is top-notch and tastes fresh!",
+          date: DateTime(2025, 03, 23),
+        ),
+      ],
     ),
     Product(
       id: '36',
@@ -98,7 +213,26 @@ class ProductData {
       rating: 4.7,
       reviewCount: 300,
       inStock: true,
-      relatedProducts: ['30', '32'],
+      relatedProducts: ['34', '35'],
+      reviews: [
+        Review(
+          id: "r009",
+          userName: "Udana Kumara",
+          userImage: "",
+          rating: 4.5,
+          comment:
+              "The quality is top-notch and tastes fresh! I would definitely recommend it.",
+          date: DateTime(2025, 03, 10),
+        ),
+        Review(
+          comment: "The quality is top-notch and tastes fresh!",
+          date: DateTime(2025, 03, 23),
+          id: "r010",
+          rating: 4.5,
+          userName: "Shammika Silva",
+          userImage: "",
+        ),
+      ],
     ),
     Product(
       id: '37',
@@ -112,9 +246,27 @@ class ProductData {
       reviewCount: 150,
       inStock: true,
       relatedProducts: ['38', '39'],
+      reviews: [
+        Review(
+          id: "r010",
+          userName: "Kasun Geesara",
+          userImage: "",
+          rating: 4.5,
+          comment: "The quality good! Deliverd within 2 days too.",
+          date: DateTime(2025, 03, 10),
+        ),
+        Review(
+          id: "r011",
+          userName: "Kavindu Perera",
+          userImage: "",
+          rating: 4.5,
+          comment: "The quality good and the price is reasonable.",
+          date: DateTime(2025, 03, 10),
+        ),
+      ],
     ),
     Product(
-      id: '37',
+      id: '38',
       name: 'Rice',
       category: 'Grocery',
       price: 350,
@@ -124,10 +276,28 @@ class ProductData {
       rating: 4.6,
       reviewCount: 150,
       inStock: true,
-      relatedProducts: ['38', '37'],
+      relatedProducts: ['39', '37'],
+      reviews: [
+        Review(
+          id: "r011",
+          userName: "Monal Lanka",
+          userImage: "",
+          rating: 4.5,
+          comment: "The quality good and the price is reasonable.",
+          date: DateTime(2025, 03, 10),
+        ),
+        Review(
+          id: "r012",
+          userName: "Frank Perera",
+          userImage: "",
+          rating: 4.5,
+          comment: "The quality good! Deliverd within 2 days too.",
+          date: DateTime(2025, 03, 10),
+        ),
+      ],
     ),
     Product(
-      id: '37',
+      id: '39',
       name: 'Oil',
       category: 'Grocery',
       price: 750,
@@ -138,6 +308,24 @@ class ProductData {
       reviewCount: 150,
       inStock: true,
       relatedProducts: ['37', '38'],
+      reviews: [
+        Review(
+          id: "r012",
+          userName: "Kavya Kumara",
+          userImage: "",
+          rating: 4.5,
+          comment: "The quality good and the price is reasonable.",
+          date: DateTime(2025, 03, 10),
+        ),
+        Review(
+          id: "r013",
+          userName: "Kasun Kanchana",
+          userImage: "",
+          rating: 4.5,
+          comment: "The quality good! Deliverd within 2 days too.",
+          date: DateTime(2025, 03, 10),
+        ),
+      ],
     ),
   ];
 

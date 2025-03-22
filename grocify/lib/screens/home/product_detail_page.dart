@@ -6,6 +6,7 @@ import 'package:grocify/widgets/product_details/bottom_purchase_bar.dart';
 import 'package:grocify/widgets/product_details/product_image_viewer.dart';
 import 'package:grocify/widgets/product_details/product_info.dart';
 import 'package:grocify/widgets/product_details/related_products.dart';
+import 'package:grocify/widgets/product_details/reviews_section.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   final String productId;
@@ -182,7 +183,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       });
                     },
                   ),
-
+                  const SizedBox(height: 24),
+                  ReviewsSection(
+                    reviews: _product.reviews,
+                    rating: _product.rating,
+                    reviewCount: _product.reviewCount,
+                  ),
                   const SizedBox(height: 24),
 
                   RelatedProductsSection(

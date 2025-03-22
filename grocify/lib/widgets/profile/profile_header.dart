@@ -19,10 +19,10 @@ class ProfileHeader extends StatelessWidget {
       child: Column(
         children: [
           CircleAvatar(
-            radius: 60,
+            radius: 70,
             backgroundColor: Colors.green,
             child: CircleAvatar(
-              radius: 57,
+              radius: 66,
               backgroundImage: AssetImage(userProfileImage),
               onBackgroundImageError: (_, __) {
                 return;

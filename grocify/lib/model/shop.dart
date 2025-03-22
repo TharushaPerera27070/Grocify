@@ -12,6 +12,7 @@ class Product {
   final bool inStock;
   bool isFavorite;
   final List<String>? relatedProducts;
+  final List<Review>? reviews;
 
   Product({
     required this.id,
@@ -27,5 +28,28 @@ class Product {
     required this.inStock,
     this.isFavorite = false,
     this.relatedProducts,
+    this.reviews,
+  });
+}
+
+class Review {
+  final String id;
+  final String userName;
+  final String? userImage;
+  final double rating;
+  final String comment;
+  final DateTime date;
+  final List<String>? images;
+  final int helpfulCount;
+
+  Review({
+    required this.id,
+    required this.userName,
+    this.userImage,
+    required this.rating,
+    required this.comment,
+    required this.date,
+    this.images,
+    this.helpfulCount = 0,
   });
 }

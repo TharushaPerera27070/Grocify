@@ -59,7 +59,7 @@ class RelatedProductsSection extends StatelessWidget {
                     width: 160,
                     margin: const EdgeInsets.only(right: 12),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade200),
+                      border: Border.all(color: Colors.green.shade200),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Column(
