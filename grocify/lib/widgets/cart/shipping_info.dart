@@ -20,6 +20,7 @@ class ShippingInformationForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      surfaceTintColor: Colors.green,
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
@@ -29,6 +30,7 @@ class ShippingInformationForm extends StatelessWidget {
           children: [
             TextFormField(
               controller: nameController,
+              style: GoogleFonts.poppins(),
               decoration: _inputDecoration('Full Name'),
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
@@ -40,6 +42,7 @@ class ShippingInformationForm extends StatelessWidget {
             const SizedBox(height: 16),
             TextFormField(
               controller: phoneController,
+              style: GoogleFonts.poppins(),
               decoration: _inputDecoration('Phone Number'),
               keyboardType: TextInputType.phone,
               validator: (value) {
@@ -52,6 +55,7 @@ class ShippingInformationForm extends StatelessWidget {
             const SizedBox(height: 16),
             TextFormField(
               controller: addressController,
+              style: GoogleFonts.poppins(),
               decoration: _inputDecoration('Address'),
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
@@ -66,6 +70,7 @@ class ShippingInformationForm extends StatelessWidget {
                 Expanded(
                   child: TextFormField(
                     controller: cityController,
+                    style: GoogleFonts.poppins(),
                     decoration: _inputDecoration('City'),
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -79,6 +84,7 @@ class ShippingInformationForm extends StatelessWidget {
                 Expanded(
                   child: TextFormField(
                     controller: postalCodeController,
+                    style: GoogleFonts.poppins(),
                     decoration: _inputDecoration('Postal Code'),
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -99,12 +105,9 @@ class ShippingInformationForm extends StatelessWidget {
   InputDecoration _inputDecoration(String label) {
     return InputDecoration(
       labelText: label,
-      labelStyle: GoogleFonts.marcellus(color: Colors.grey[700]),
+      labelStyle: GoogleFonts.poppins(color: Colors.grey[700]),
       focusedBorder: OutlineInputBorder(
-        borderSide: const BorderSide(
-          color: Color.fromARGB(255, 165, 81, 139),
-          width: 2,
-        ),
+        borderSide: const BorderSide(color: Colors.green, width: 2),
         borderRadius: BorderRadius.circular(8),
       ),
       enabledBorder: OutlineInputBorder(

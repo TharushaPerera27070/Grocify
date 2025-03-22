@@ -144,11 +144,20 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
+                const SizedBox(width: 16),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.mic, color: Colors.white, size: 28),
+                  ),
+                ),
               ],
             ),
           ),
-
-          // Rest of the content in a scrollable area
           Expanded(
             child: ListView(
               padding: EdgeInsets.zero,
@@ -340,6 +349,7 @@ class _HomeState extends State<Home> {
     );
   }
 
+  // ignore: unused_element
   Widget _buildProductCard(Product product) {
     return ProductCard(product: product);
   }

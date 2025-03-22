@@ -1,8 +1,9 @@
 // ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocify/data/shop.dart';
+import 'package:grocify/screens/cart/checkout_page.dart';
+import 'package:grocify/widgets/cart/cart_item_card.dart';
 
 class Cart extends StatefulWidget {
   const Cart({super.key});
@@ -116,168 +117,10 @@ class _CartState extends State<Cart> {
                       itemCount: cartItems.length,
                       itemBuilder: (context, index) {
                         final item = cartItems[index];
-                        final product = item.product;
 
-                        return Card(
-                          margin: const EdgeInsets.only(bottom: 16),
-                          elevation: 1,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Product image
-                              ClipRRect(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(12),
-                                  bottomLeft: Radius.circular(12),
-                                ),
-                                child: Image.asset(
-                                  product.imageUrl,
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-
-                              // Product details
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        product.name,
-                                        style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 17,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        'Rs.${product.price.toStringAsFixed(2)}',
-                                        style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.green,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-
-                                      // Quantity selector
-                                      Row(
-                                        children: [
-                                          // Decrease button
-                                          InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                if (item.quantity > 1) {
-                                                  ProductData.updateCartItemQuantity(
-                                                    product.id,
-                                                    item.quantity - 1,
-                                                  );
-                                                } else {
-                                                  ProductData.removeFromCart(
-                                                    product.id,
-                                                  );
-                                                }
-                                              });
-                                            },
-                                            child: Container(
-                                              padding: const EdgeInsets.all(4),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors.grey.shade300,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(4),
-                                              ),
-                                              child: const Icon(
-                                                Icons.remove,
-                                                size: 16,
-                                                color: Colors.green,
-                                              ),
-                                            ),
-                                          ),
-
-                                          // Quantity
-                                          Container(
-                                            margin: const EdgeInsets.symmetric(
-                                              horizontal: 8,
-                                            ),
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 12,
-                                              vertical: 4,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: Colors.grey.shade300,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(4),
-                                            ),
-                                            child: Text(
-                                              '${item.quantity}',
-                                              style: GoogleFonts.poppins(
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-
-                                          // Increase button
-                                          InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                ProductData.updateCartItemQuantity(
-                                                  product.id,
-                                                  item.quantity + 1,
-                                                );
-                                              });
-                                            },
-                                            child: Container(
-                                              padding: const EdgeInsets.all(4),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors.grey.shade300,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(4),
-                                              ),
-                                              child: const Icon(
-                                                Icons.add,
-                                                size: 16,
-                                                color: Colors.green,
-                                              ),
-                                            ),
-                                          ),
-
-                                          const Spacer(),
-
-                                          // Remove button
-                                          IconButton(
-                                            icon: const Icon(
-                                              Icons.delete_outline,
-                                              color: Colors.grey,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                ProductData.removeFromCart(
-                                                  product.id,
-                                                );
-                                              });
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                        return CartItemCard(
+                          item: item,
+                          onQuantityChanged: () => setState(() {}),
                         );
                       },
                     ),
@@ -325,12 +168,12 @@ class _CartState extends State<Cart> {
 
                         ElevatedButton(
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const CheckoutPage(),
-                            //   ),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CheckoutPage(),
+                              ),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,

@@ -27,6 +27,7 @@ class CreditCardForm extends StatelessWidget {
         const SizedBox(height: 24),
         _buildSectionTitle('Card Details'),
         Card(
+          surfaceTintColor: Colors.green,
           elevation: 1,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -103,9 +104,9 @@ class CreditCardForm extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: Text(
         title,
-        style: GoogleFonts.marcellus(
+        style: GoogleFonts.poppins(
           fontSize: 18,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w600,
           color: Colors.black,
         ),
       ),
@@ -115,12 +116,9 @@ class CreditCardForm extends StatelessWidget {
   InputDecoration _inputDecoration(String label) {
     return InputDecoration(
       labelText: label,
-      labelStyle: GoogleFonts.marcellus(color: Colors.grey[700]),
+      labelStyle: GoogleFonts.poppins(color: Colors.grey[700]),
       focusedBorder: OutlineInputBorder(
-        borderSide: const BorderSide(
-          color: Color.fromARGB(255, 165, 81, 139),
-          width: 2,
-        ),
+        borderSide: const BorderSide(color: Colors.green, width: 2),
         borderRadius: BorderRadius.circular(8),
       ),
       enabledBorder: OutlineInputBorder(

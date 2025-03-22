@@ -19,6 +19,7 @@ class OrderSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      surfaceTintColor: Colors.green,
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
@@ -28,7 +29,7 @@ class OrderSummary extends StatelessWidget {
           children: [
             Text(
               '${cartItems.length} ${cartItems.length == 1 ? 'item' : 'items'}',
-              style: GoogleFonts.marcellus(
+              style: GoogleFonts.poppins(
                 color: Colors.grey[700],
                 fontWeight: FontWeight.w500,
               ),
@@ -69,14 +70,14 @@ class OrderSummary extends StatelessWidget {
               children: [
                 Text(
                   item.product.name,
-                  style: GoogleFonts.marcellus(fontWeight: FontWeight.w500),
+                  style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 4),
                 Text(
                   'Quantity: ${item.quantity}',
-                  style: GoogleFonts.marcellus(
+                  style: GoogleFonts.poppins(
                     fontSize: 12,
                     color: Colors.grey[700],
                   ),
@@ -88,7 +89,7 @@ class OrderSummary extends StatelessWidget {
           // Price
           Text(
             'Rs.${(item.product.price * item.quantity).toStringAsFixed(2)}',
-            style: GoogleFonts.marcellus(fontWeight: FontWeight.w500),
+            style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
           ),
         ],
       ),
@@ -114,16 +115,16 @@ class OrderSummary extends StatelessWidget {
         children: [
           Text(
             label,
-            style: GoogleFonts.marcellus(
+            style: GoogleFonts.poppins(
               fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
               fontSize: isTotal ? 16 : 14,
             ),
           ),
           Text(
             'Rs.${amount.toStringAsFixed(2)}',
-            style: GoogleFonts.marcellus(
+            style: GoogleFonts.poppins(
               fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
-              color: isTotal ? const Color.fromARGB(255, 165, 81, 139) : null,
+              color: isTotal ? Colors.green : null,
               fontSize: isTotal ? 16 : 14,
             ),
           ),

@@ -17,6 +17,7 @@ class DeliveryOptionsSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      surfaceTintColor: Colors.green,
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
@@ -28,26 +29,22 @@ class DeliveryOptionsSelector extends StatelessWidget {
                     (option) => RadioListTile<DeliveryOption>(
                       title: Text(
                         option.name,
-                        style: GoogleFonts.marcellus(
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
                       ),
                       subtitle: Text(
                         option.description,
-                        style: GoogleFonts.marcellus(
+                        style: GoogleFonts.poppins(
                           color: Colors.grey[700],
-                          fontSize: 12,
+                          fontSize: 13,
                         ),
                       ),
                       secondary: Text(
                         'Rs.${option.price.toStringAsFixed(2)}',
-                        style: GoogleFonts.marcellus(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
                       ),
                       value: option,
                       groupValue: selectedDeliveryOption,
-                      activeColor: const Color.fromARGB(255, 165, 81, 139),
+                      activeColor: Colors.green,
                       onChanged: onChanged,
                     ),
                   )

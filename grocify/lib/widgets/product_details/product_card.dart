@@ -22,11 +22,11 @@ class ProductCard extends StatelessWidget {
           ),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.green.shade50,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withOpacity(0.2),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),

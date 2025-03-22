@@ -16,6 +16,7 @@ class PaymentMethodSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      surfaceTintColor: Colors.green,
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
@@ -27,13 +28,11 @@ class PaymentMethodSelector extends StatelessWidget {
                     (method) => RadioListTile<String>(
                       title: Text(
                         method,
-                        style: GoogleFonts.marcellus(
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
                       ),
                       value: method,
                       groupValue: selectedPaymentMethod,
-                      activeColor: const Color.fromARGB(255, 165, 81, 139),
+                      activeColor: Colors.green,
                       onChanged: onChanged,
                     ),
                   )

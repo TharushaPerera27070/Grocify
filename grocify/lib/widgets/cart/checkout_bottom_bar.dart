@@ -35,17 +35,17 @@ class CheckoutBottomBar extends StatelessWidget {
             children: [
               Text(
                 'Total:',
-                style: GoogleFonts.marcellus(
+                style: GoogleFonts.poppins(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               Text(
                 'Rs.${total.toStringAsFixed(2)}',
-                style: GoogleFonts.marcellus(
+                style: GoogleFonts.poppins(
                   fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 165, 81, 139),
+                  fontWeight: FontWeight.w600,
+                  color: Colors.green,
                 ),
               ),
             ],
@@ -54,7 +54,7 @@ class CheckoutBottomBar extends StatelessWidget {
           ElevatedButton(
             onPressed: onPayPressed,
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 165, 81, 139),
+              backgroundColor: Colors.green,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
@@ -62,8 +62,8 @@ class CheckoutBottomBar extends StatelessWidget {
             ),
             child: Text(
               'Pay Now',
-              style: GoogleFonts.marcellus(
-                fontWeight: FontWeight.bold,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w600,
                 fontSize: 16,
                 color: Colors.white,
               ),
