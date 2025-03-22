@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grocify/data/shop.dart';
 import 'package:grocify/model/delivery_options.dart';
 import 'package:grocify/widgets/cart/checkout_bottom_bar.dart';
-import 'package:grocify/widgets/cart/credit_card_form.dart';
 import 'package:grocify/widgets/cart/delivery_options.dart';
 import 'package:grocify/widgets/cart/order_summery.dart';
 import 'package:grocify/widgets/cart/payment_method.dart';
@@ -273,17 +272,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                 }
                               },
                             ),
-
-                            // Credit card form if applicable
-                            CreditCardForm(
-                              cardNumberController: _cardNumberController,
-                              cardHolderController: _cardHolderController,
-                              expiryController: _expiryController,
-                              cvvController: _cvvController,
-                              isActive:
-                                  _selectedPaymentMethod == 'Credit/Debit Card',
-                            ),
-
                             const SizedBox(height: 24),
 
                             // Terms and conditions
