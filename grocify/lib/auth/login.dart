@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocify/auth/sign_up.dart';
-import 'package:grocify/home/home.dart';
+import 'package:grocify/base.dart';
 import 'package:grocify/widgets/auth/alert_dialog.dart';
 
 class Login extends StatefulWidget {
@@ -25,7 +25,27 @@ class _LoginState extends State<Login> {
         Navigator.of(context).pop();
         Navigator.of(
           context,
-        ).pushReplacement(MaterialPageRoute(builder: (ctx) => const Home()));
+        ).pushReplacement(MaterialPageRoute(builder: (ctx) => const Base()));
+      },
+      buttonColor: const Color.fromARGB(255, 250, 200, 49),
+    );
+  }
+
+  // ignore: unused_element
+  void _showErrorDialog() {
+    SuccessDialog.show(
+      context: context,
+      title: "Login Unsuccessfull!",
+      message: "Please check your credentials and try again!",
+      buttonText: "Try Again",
+      iconBackgroundColor: Colors.redAccent,
+      icon: Icons.close,
+      iconColor: Colors.black,
+      onButtonPressed: () {
+        Navigator.of(context).pop();
+        Navigator.of(
+          context,
+        ).pushReplacement(MaterialPageRoute(builder: (ctx) => const Login()));
       },
       buttonColor: const Color.fromARGB(255, 250, 200, 49),
     );

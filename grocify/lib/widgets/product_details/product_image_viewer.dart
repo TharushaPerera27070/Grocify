@@ -69,10 +69,7 @@ class _ProductImageViewerState extends State<ProductImageViewer> {
                     margin: const EdgeInsets.only(right: 8),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color:
-                            isSelected
-                                ? const Color.fromARGB(255, 165, 81, 139)
-                                : Colors.grey.shade300,
+                        color: isSelected ? Colors.green : Colors.grey.shade300,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),

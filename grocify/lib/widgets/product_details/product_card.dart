@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocify/data/shop.dart';
-import 'package:grocify/home/product_detail_page.dart';
+import 'package:grocify/screens/home/product_detail_page.dart';
 import 'package:grocify/model/shop.dart';
 
 class ProductCard extends StatelessWidget {

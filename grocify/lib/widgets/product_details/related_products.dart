@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocify/data/shop.dart';
-import 'package:grocify/home/product_detail_page.dart';
+import 'package:grocify/screens/home/product_detail_page.dart';
 
 class RelatedProductsSection extends StatelessWidget {
   final List<String>? relatedProductIds;
@@ -21,9 +21,9 @@ class RelatedProductsSection extends StatelessWidget {
         children: [
           Text(
             'You May Also Like',
-            style: GoogleFonts.marcellus(
+            style: GoogleFonts.poppins(
               fontSize: 18,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w500,
               color: Colors.black,
             ),
           ),
@@ -85,16 +85,16 @@ class RelatedProductsSection extends StatelessWidget {
                                 relatedProduct.name,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.marcellus(
-                                  fontWeight: FontWeight.bold,
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                               const SizedBox(height: 4),
                               Text(
                                 '\Rs.${relatedProduct.price.toStringAsFixed(2)}',
-                                style: GoogleFonts.marcellus(
+                                style: GoogleFonts.poppins(
                                   color: Colors.black,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ],

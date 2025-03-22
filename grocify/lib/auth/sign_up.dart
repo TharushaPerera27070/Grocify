@@ -30,6 +30,26 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
+  // ignore: unused_element
+  void _showErrorDialog() {
+    SuccessDialog.show(
+      context: context,
+      title: "Oops! \nSomething went wrong.",
+      message: "Please check your details and try again.",
+      buttonText: "Try Again",
+      iconBackgroundColor: Colors.redAccent,
+      icon: Icons.close,
+      iconColor: Colors.black,
+      onButtonPressed: () {
+        Navigator.of(context).pop();
+        Navigator.of(
+          context,
+        ).pushReplacement(MaterialPageRoute(builder: (ctx) => const SignUp()));
+      },
+      buttonColor: const Color.fromARGB(255, 250, 200, 49),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
