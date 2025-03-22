@@ -251,6 +251,7 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       DropdownButton<String>(
+                        dropdownColor: Colors.green.shade50,
                         value: _sortOption,
                         underline: const SizedBox(),
                         icon: const Icon(Icons.sort),
