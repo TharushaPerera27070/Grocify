@@ -66,7 +66,6 @@ class ProductData {
         Review(
           id: "r001",
           userName: "Anushka Udana",
-          userImage: "",
           rating: 5.0,
           comment:
               "This product is amazing! The quality is top-notch and I highly recommend it!",
@@ -107,7 +106,6 @@ class ProductData {
         Review(
           id: "r004",
           userName: "Nimesha Perera",
-          userImage: "",
           rating: 4.5,
           comment:
               "The quality is top-notch and tastes fresh! I would definitely recommend it.",
@@ -139,7 +137,6 @@ class ProductData {
         Review(
           id: "r006",
           userName: "Chamathka Silva",
-          userImage: "assets/images/user2.jpg",
           rating: 5.0,
           comment:
               "I absolutely love this product! The quality is top-notch and tastes fresh!",
@@ -163,7 +160,6 @@ class ProductData {
         Review(
           id: "r007",
           userName: "Dilki Perera",
-          userImage: "",
           rating: 4.5,
           comment: "Love this product!",
           date: DateTime(2024, 03, 08),
@@ -186,7 +182,6 @@ class ProductData {
         Review(
           id: "r008",
           userName: "Kasun Perera",
-          userImage: "",
           rating: 4.5,
           comment:
               "The quality is top-notch and tastes fresh! I would definitely recommend it.",
@@ -195,7 +190,6 @@ class ProductData {
         Review(
           id: "r009",
           userName: "Thamalka De Silva",
-          userImage: "",
           rating: 4.5,
           comment: "The quality is top-notch and tastes fresh!",
           date: DateTime(2025, 03, 23),
@@ -218,7 +212,6 @@ class ProductData {
         Review(
           id: "r009",
           userName: "Udana Kumara",
-          userImage: "",
           rating: 4.5,
           comment:
               "The quality is top-notch and tastes fresh! I would definitely recommend it.",
@@ -230,7 +223,6 @@ class ProductData {
           id: "r010",
           rating: 4.5,
           userName: "Shammika Silva",
-          userImage: "",
         ),
       ],
     ),
@@ -250,7 +242,6 @@ class ProductData {
         Review(
           id: "r010",
           userName: "Kasun Geesara",
-          userImage: "",
           rating: 4.5,
           comment: "The quality good! Deliverd within 2 days too.",
           date: DateTime(2025, 03, 10),
@@ -258,7 +249,6 @@ class ProductData {
         Review(
           id: "r011",
           userName: "Kavindu Perera",
-          userImage: "",
           rating: 4.5,
           comment: "The quality good and the price is reasonable.",
           date: DateTime(2025, 03, 10),
@@ -281,7 +271,6 @@ class ProductData {
         Review(
           id: "r011",
           userName: "Monal Lanka",
-          userImage: "",
           rating: 4.5,
           comment: "The quality good and the price is reasonable.",
           date: DateTime(2025, 03, 10),
@@ -289,7 +278,6 @@ class ProductData {
         Review(
           id: "r012",
           userName: "Frank Perera",
-          userImage: "",
           rating: 4.5,
           comment: "The quality good! Deliverd within 2 days too.",
           date: DateTime(2025, 03, 10),
@@ -312,7 +300,6 @@ class ProductData {
         Review(
           id: "r012",
           userName: "Kavya Kumara",
-          userImage: "",
           rating: 4.5,
           comment: "The quality good and the price is reasonable.",
           date: DateTime(2025, 03, 10),
@@ -320,7 +307,6 @@ class ProductData {
         Review(
           id: "r013",
           userName: "Kasun Kanchana",
-          userImage: "",
           rating: 4.5,
           comment: "The quality good! Deliverd within 2 days too.",
           date: DateTime(2025, 03, 10),
