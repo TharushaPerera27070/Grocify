@@ -2,6 +2,7 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:grocify/auth/sign_up.dart';
 import 'package:grocify/providers/navigation_provider.dart';
+import 'package:grocify/providers/navigation_provider_admin.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => NavigationProvider()),
+        ChangeNotifierProvider(create: (context) => NavigationProviderAdmin()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
