@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grocify/Admin/admin_base.dart';
 import 'package:grocify/auth/sign_up.dart';
 import 'package:grocify/base.dart';
 import 'package:grocify/services/auth_service.dart';
@@ -16,20 +17,26 @@ class _LoginState extends State<Login> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  void _showSuccessDialog() {
+  void _showSuccessDialog(String role) {
     SuccessDialog.show(
       context: context,
       title: "Login Successfully!",
-      message: "Enjoy shopping with Grocify!",
-      buttonText: "Home",
+      message: "Welcome to Grocify!",
+      buttonText: "Proceed",
       iconBackgroundColor: Colors.green,
       icon: Icons.check,
       iconColor: Colors.white,
       onButtonPressed: () {
         Navigator.of(context).pop();
-        Navigator.of(
-          context,
-        ).pushReplacement(MaterialPageRoute(builder: (ctx) => const Base()));
+        if (role == 'admin') {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (ctx) => const AdminBase()),
+          );
+        } else {
+          Navigator.of(
+            context,
+          ).pushReplacement(MaterialPageRoute(builder: (ctx) => const Base()));
+        }
       },
       buttonColor: const Color.fromARGB(255, 250, 200, 49),
     );
@@ -55,16 +62,25 @@ class _LoginState extends State<Login> {
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
 
-    // Call the login function from AuthService
-    String loginResponse = await AuthService().login(
-      email: email,
-      password: password,
-    );
+    // Admin credentials (for example)
+    const String adminEmail = 'admin@gmail.com';
+    const String adminPassword = 'admin123';
 
-    if (loginResponse == 'Login successful') {
-      _showSuccessDialog();
+    // Check if the entered credentials match admin credentials
+    if (email == adminEmail && password == adminPassword) {
+      _showSuccessDialog('admin');
     } else {
-      _showErrorDialog();
+      // Normal user login using AuthService
+      String loginResponse = await AuthService().login(
+        email: email,
+        password: password,
+      );
+
+      if (loginResponse == 'Login successful') {
+        _showSuccessDialog('user');
+      } else {
+        _showErrorDialog();
+      }
     }
   }
 
@@ -148,7 +164,7 @@ class _LoginState extends State<Login> {
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _passwordController,
-                            obscureText: true, // Hide the password
+                            obscureText: true,
                             style: const TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(16),
@@ -219,7 +235,7 @@ class _LoginState extends State<Login> {
                       height: 60,
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: _login, // Call login method
+                        onPressed: _login,
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.all(8),
                           shape: RoundedRectangleBorder(
