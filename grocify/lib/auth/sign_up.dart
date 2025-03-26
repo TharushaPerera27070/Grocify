@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocify/auth/login.dart';
+import 'package:grocify/services/auth_service.dart';
 import 'package:grocify/widgets/auth/alert_dialog.dart';
 
 class SignUp extends StatefulWidget {
@@ -11,6 +12,10 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+
   void _showSuccessDialog() {
     SuccessDialog.show(
       context: context,
@@ -30,21 +35,17 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  // ignore: unused_element
   void _showErrorDialog() {
     SuccessDialog.show(
       context: context,
-      title: "Oops! \nSomething went wrong.",
-      message: "Please check your details and try again.",
+      title: "Oops! Something went wrong.",
+      message: "An unexpected error occurred. Please try again.",
       buttonText: "Try Again",
       iconBackgroundColor: Colors.redAccent,
       icon: Icons.close,
       iconColor: Colors.black,
       onButtonPressed: () {
         Navigator.of(context).pop();
-        Navigator.of(
-          context,
-        ).pushReplacement(MaterialPageRoute(builder: (ctx) => const SignUp()));
       },
       buttonColor: const Color.fromARGB(255, 250, 200, 49),
     );
@@ -99,6 +100,7 @@ class _SignUpState extends State<SignUp> {
                       child: Column(
                         children: [
                           TextFormField(
+                            controller: _emailController,
                             style: const TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(16),
@@ -111,7 +113,6 @@ class _SignUpState extends State<SignUp> {
                               ),
                               fillColor: Colors.white,
                               filled: true,
-
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5),
                                 borderSide: const BorderSide(
@@ -130,6 +131,7 @@ class _SignUpState extends State<SignUp> {
                           ),
                           const SizedBox(height: 8),
                           TextFormField(
+                            controller: _nameController,
                             style: const TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(16),
@@ -142,7 +144,6 @@ class _SignUpState extends State<SignUp> {
                               ),
                               fillColor: Colors.white,
                               filled: true,
-
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5),
                                 borderSide: const BorderSide(
@@ -161,6 +162,7 @@ class _SignUpState extends State<SignUp> {
                           ),
                           const SizedBox(height: 8),
                           TextFormField(
+                            controller: _passwordController,
                             style: const TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(16),
@@ -173,7 +175,6 @@ class _SignUpState extends State<SignUp> {
                               ),
                               fillColor: Colors.white,
                               filled: true,
-
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5),
                                 borderSide: const BorderSide(
@@ -198,8 +199,18 @@ class _SignUpState extends State<SignUp> {
                       height: 60,
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          _showSuccessDialog();
+                        onPressed: () async {
+                          String result = await AuthService().signup(
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                            name: _nameController.text,
+                          );
+
+                          if (result == 'Account created successfully') {
+                            _showSuccessDialog();
+                          } else {
+                            _showErrorDialog();
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.all(8),

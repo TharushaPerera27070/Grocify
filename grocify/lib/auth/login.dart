@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocify/auth/sign_up.dart';
 import 'package:grocify/base.dart';
+import 'package:grocify/services/auth_service.dart';
 import 'package:grocify/widgets/auth/alert_dialog.dart';
 
 class Login extends StatefulWidget {
@@ -12,6 +13,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
   void _showSuccessDialog() {
     SuccessDialog.show(
       context: context,
@@ -31,24 +35,37 @@ class _LoginState extends State<Login> {
     );
   }
 
-  // ignore: unused_element
   void _showErrorDialog() {
     SuccessDialog.show(
       context: context,
-      title: "Login Unsuccessfull!",
-      message: "Please check your credentials and try again!",
+      title: "Login Unsuccessful!",
+      message: "Please check your email and password.",
       buttonText: "Try Again",
       iconBackgroundColor: Colors.redAccent,
       icon: Icons.close,
       iconColor: Colors.black,
       onButtonPressed: () {
         Navigator.of(context).pop();
-        Navigator.of(
-          context,
-        ).pushReplacement(MaterialPageRoute(builder: (ctx) => const Login()));
       },
       buttonColor: const Color.fromARGB(255, 250, 200, 49),
     );
+  }
+
+  void _login() async {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+
+    // Call the login function from AuthService
+    String loginResponse = await AuthService().login(
+      email: email,
+      password: password,
+    );
+
+    if (loginResponse == 'Login successful') {
+      _showSuccessDialog();
+    } else {
+      _showErrorDialog();
+    }
   }
 
   @override
@@ -99,6 +116,7 @@ class _LoginState extends State<Login> {
                       child: Column(
                         children: [
                           TextFormField(
+                            controller: _emailController,
                             style: const TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(16),
@@ -111,7 +129,6 @@ class _LoginState extends State<Login> {
                               ),
                               fillColor: Colors.white,
                               filled: true,
-
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5),
                                 borderSide: const BorderSide(
@@ -128,9 +145,10 @@ class _LoginState extends State<Login> {
                               ),
                             ),
                           ),
-
                           const SizedBox(height: 8),
                           TextFormField(
+                            controller: _passwordController,
+                            obscureText: true, // Hide the password
                             style: const TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(16),
@@ -143,7 +161,6 @@ class _LoginState extends State<Login> {
                               ),
                               fillColor: Colors.white,
                               filled: true,
-
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5),
                                 borderSide: const BorderSide(
@@ -202,9 +219,7 @@ class _LoginState extends State<Login> {
                       height: 60,
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          _showSuccessDialog();
-                        },
+                        onPressed: _login, // Call login method
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.all(8),
                           shape: RoundedRectangleBorder(

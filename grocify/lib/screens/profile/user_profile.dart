@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grocify/auth/login.dart';
+import 'package:grocify/services/auth_service.dart';
 import 'package:grocify/widgets/profile/password_section.dart';
 import 'package:grocify/widgets/profile/personal_info_card.dart';
 import 'package:grocify/widgets/profile/profile_header.dart';
@@ -66,8 +68,12 @@ class _UserProfileState extends State<UserProfile> {
                       width: double.infinity,
                       margin: const EdgeInsets.only(bottom: 24),
                       child: ElevatedButton(
-                        onPressed: () {
-                          print("Developed by WaveLoop");
+                        onPressed: () async {
+                          await AuthService().logout();
+                          print("Developed by WorkSync");
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (ctx) => const Login()),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
