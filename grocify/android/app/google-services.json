@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "599644042741",
+    "project_id": "grocify-a0baf",
+    "storage_bucket": "grocify-a0baf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599644042741:android:4d599485af540a84071cbc",
+        "android_client_info": {
+          "package_name": "com.example.grocify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlQVPmSXffa6vevNxIYY7n68VH7dpNad0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

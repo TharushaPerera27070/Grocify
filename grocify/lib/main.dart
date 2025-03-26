@@ -1,11 +1,16 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:grocify/auth/sign_up.dart';
+import 'package:grocify/firebase_options.dart';
 import 'package:grocify/providers/navigation_provider.dart';
 import 'package:grocify/providers/navigation_provider_admin.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(const MyApp());
 }
 
