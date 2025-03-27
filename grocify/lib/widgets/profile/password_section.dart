@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grocify/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class PasswordSection extends StatefulWidget {
   const PasswordSection({super.key});
@@ -13,13 +15,8 @@ class _PasswordSectionState extends State<PasswordSection> {
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  bool _obscureCurrentPassword = true;
   bool _obscureNewPassword = true;
   bool _obscureConfirmPassword = true;
-  bool _isLoading = false;
-
-  // Dummy current password - not shown to user
-  final String _dummyCurrentPassword = "Password123";
 
   @override
   void dispose() {
@@ -30,16 +27,43 @@ class _PasswordSectionState extends State<PasswordSection> {
 
   void _updatePassword() async {
     if (_formKey.currentState?.validate() ?? false) {
-      setState(() {
-        _isLoading = true;
-      });
+      print('New Password: ${_newPasswordController.text}');
+      print('Confirm Password: ${_confirmPasswordController.text}');
 
-      // Simulate API call with a delay
-      await Future.delayed(const Duration(seconds: 1));
+      try {
+        await context.read<UserProvider>().updatePassword(
+          _newPasswordController.text,
+        );
+      } catch (e) {
+        print('Error updating password: $e');
+        String errorMessage = e.toString();
 
-      setState(() {
-        _isLoading = false;
-      });
+        if (errorMessage.contains(
+          'Please sign in again before updating your password',
+        )) {
+          errorMessage = 'Please sign in again before updating your password';
+        } else if (errorMessage.contains('The password provided is too weak')) {
+          errorMessage = 'The password provided is too weak';
+        } else if (errorMessage.contains('No user is currently signed in')) {
+          errorMessage = 'No user is currently signed in';
+        } else {
+          errorMessage = 'Failed to update password. Please try again';
+        }
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                errorMessage,
+                style: GoogleFonts.poppins(color: Colors.white),
+              ),
+              backgroundColor: Colors.red,
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
+        return;
+      }
 
       // Show success message
       if (mounted) {
@@ -68,50 +92,6 @@ class _PasswordSectionState extends State<PasswordSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Current Password Info (not editable)
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.grey.shade300, width: 1.5),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        _obscureCurrentPassword
-                            ? "Current Password"
-                            : _dummyCurrentPassword,
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        _obscureCurrentPassword
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                        color: const Color.fromARGB(255, 48, 47, 47),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscureCurrentPassword = !_obscureCurrentPassword;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-
           // New Password
           TextFormField(
             controller: _newPasswordController,
@@ -159,15 +139,7 @@ class _PasswordSectionState extends State<PasswordSection> {
               if (value == null || value.isEmpty) {
                 return 'Please enter a new password';
               }
-              if (value.length < 8) {
-                return 'Password must be at least 8 characters';
-              }
-              if (!value.contains(RegExp(r'[A-Z]'))) {
-                return 'Password must contain at least one uppercase letter';
-              }
-              if (!value.contains(RegExp(r'[0-9]'))) {
-                return 'Password must contain at least one number';
-              }
+
               return null;
             },
           ),
@@ -258,9 +230,15 @@ class _PasswordSectionState extends State<PasswordSection> {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: _isLoading ? null : _updatePassword,
+              onPressed:
+                  context.watch<UserProvider>().isLoading
+                      ? null
+                      : _updatePassword,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
+                backgroundColor:
+                    context.watch<UserProvider>().isLoading
+                        ? Colors.grey
+                        : Colors.green,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
@@ -269,7 +247,7 @@ class _PasswordSectionState extends State<PasswordSection> {
                 elevation: 2,
               ),
               child:
-                  _isLoading
+                  context.watch<UserProvider>().isLoading
                       ? const SizedBox(
                         height: 20,
                         width: 20,

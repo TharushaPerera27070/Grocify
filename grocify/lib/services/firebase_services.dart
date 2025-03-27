@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:grocify/model/user.dart';
+import 'package:grocify/model/user_model.dart';
 
 class FirebaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<DocumentSnapshot> getDocumentDetails(
     String collection,
@@ -97,7 +99,7 @@ class FirebaseService {
 
   Future<DocumentReference> uploadDocument(
     String collection,
-    User userData,
+    UserModel userData,
     String documentId,
   ) async {
     try {
@@ -111,7 +113,7 @@ class FirebaseService {
 
   Future<DocumentReference> updateField(
     String collection,
-    User userData,
+    UserModel userData,
     String documentId,
   ) async {
     try {
@@ -120,6 +122,27 @@ class FirebaseService {
       return docRef;
     } catch (e) {
       throw Exception('Failed to upload document: $e');
+    }
+  }
+
+  Future<void> updatePassword(String newPassword) async {
+    try {
+      final user = _auth.currentUser;
+      if (user == null) {
+        throw Exception('No user is currently signed in');
+      }
+      await user.updatePassword(newPassword);
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'requires-recent-login':
+          throw Exception('Please sign in again before updating your password');
+        case 'weak-password':
+          throw Exception('The password provided is too weak');
+        default:
+          throw Exception('Failed to update password: ${e.message}');
+      }
+    } catch (e) {
+      throw Exception('Failed to update password: $e');
     }
   }
 }

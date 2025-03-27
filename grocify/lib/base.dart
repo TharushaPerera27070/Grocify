@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:grocify/providers/navigation_provider.dart';
+import 'package:grocify/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class Base extends StatefulWidget {
@@ -12,6 +13,24 @@ class Base extends StatefulWidget {
 }
 
 class _BaseState extends State<Base> {
+  @override
+  void initState() {
+    _getUserInfo();
+    super.initState();
+  }
+
+  Future<void> _getUserInfo() async {
+    if (context.read<UserProvider>().user == null) {
+      await context.read<UserProvider>().getUserData();
+      print(
+        "Image URL ${context.read<UserProvider>().user!.profilePictureURL}",
+      );
+      print("Email ${context.read<UserProvider>().user!.email}");
+      print("Name ${context.read<UserProvider>().user!.username}");
+      print("Phone ${context.read<UserProvider>().user!.contactNumber}");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

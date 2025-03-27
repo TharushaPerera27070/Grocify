@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grocify/auth/login.dart';
 import 'package:grocify/main.dart';
 import 'package:grocify/providers/navigation_provider.dart';
+import 'package:grocify/providers/user_provider.dart';
 import 'package:grocify/services/auth_service.dart';
 import 'package:grocify/widgets/profile/password_section.dart';
 import 'package:grocify/widgets/profile/personal_info_card.dart';
@@ -48,8 +49,10 @@ class _UserProfileState extends State<UserProfile> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ProfileHeader(
-                userName: userName,
-                userProfileImage: userProfileImage,
+                userName:
+                    "Hello, ${context.watch<UserProvider>().user!.username}",
+                userProfileImage:
+                    context.watch<UserProvider>().user!.profilePictureURL,
               ),
 
               const SizedBox(height: 20),
@@ -60,8 +63,9 @@ class _UserProfileState extends State<UserProfile> {
                   children: [
                     const SectionTitle(title: "Personal Information"),
                     PersonalInfoCard(
-                      userPhone: userPhone,
-                      userEmail: userEmail,
+                      userPhone:
+                          context.watch<UserProvider>().user!.contactNumber,
+                      userEmail: context.watch<UserProvider>().user!.email,
                     ),
                     const SizedBox(height: 24),
                     const SectionTitle(title: "Change Password"),

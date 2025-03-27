@@ -18,15 +18,21 @@ class ProfileHeader extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-          CircleAvatar(
-            radius: 70,
-            backgroundColor: Colors.green,
-            child: CircleAvatar(
-              radius: 66,
-              backgroundImage: AssetImage(userProfileImage),
-              onBackgroundImageError: (_, __) {
-                return;
-              },
+          ClipOval(
+            child: SizedBox(
+              height: 150,
+              width: 150,
+              child: FadeInImage.assetNetwork(
+                placeholder: 'assets/Grocify_bg.png',
+                image: userProfileImage,
+                fit: BoxFit.cover,
+                imageErrorBuilder: (context, error, stackTrace) {
+                  return const Icon(Icons.error);
+                },
+                placeholderFit: BoxFit.cover,
+                fadeInDuration: const Duration(milliseconds: 500),
+                fadeInCurve: Curves.easeIn,
+              ),
             ),
           ),
           const SizedBox(height: 16),

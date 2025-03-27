@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class User {
+class UserModel {
   final String uid;
   final String username;
   final String email;
   final String contactNumber;
   final String profilePictureURL;
 
-  User({
+  UserModel({
     required this.uid,
     required this.username,
     required this.email,
@@ -25,14 +25,14 @@ class User {
     };
   }
 
-  factory User.fromMap(DocumentSnapshot doc) {
+  factory UserModel.fromMap(DocumentSnapshot doc) {
     if (!doc.exists) {
       throw StateError('Document does not exist');
     }
 
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
 
-    return User(
+    return UserModel(
       uid: data['uid'] ?? '',
       username: data['username'] ?? '',
       email: data['email'] ?? '',

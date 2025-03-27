@@ -2,16 +2,16 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:grocify/model/user.dart';
+import 'package:grocify/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:grocify/services/firebase_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserProvider extends ChangeNotifier {
-  User? user;
+  UserModel? user;
 
   File? profileImage;
-  User? updatedUser;
+  UserModel? updatedUser;
   bool isLoading = false;
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
 
@@ -37,7 +37,7 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> registerUser(User newUser, String password) async {
+  Future<void> registerUser(UserModel newUser, String password) async {
     try {
       isLoading = true;
       notifyListeners();
@@ -54,7 +54,7 @@ class UserProvider extends ChangeNotifier {
         userId,
       );
 
-      user = User(
+      user = UserModel(
         uid: authResult.user!.uid,
         username: newUser.username,
         email: newUser.email,
@@ -87,7 +87,7 @@ class UserProvider extends ChangeNotifier {
               .get();
 
       if (userDoc.exists) {
-        user = User.fromMap(userDoc);
+        user = UserModel.fromMap(userDoc);
         notifyListeners();
       } else {
         throw Exception("User profile data not found");
@@ -136,7 +136,7 @@ class UserProvider extends ChangeNotifier {
       );
 
       if (userDoc.exists) {
-        user = User.fromMap(userDoc);
+        user = UserModel.fromMap(userDoc);
       } else {
         throw Exception("User profile data not found");
       }
@@ -180,7 +180,7 @@ class UserProvider extends ChangeNotifier {
         profileImage = null;
       }
 
-      user = User(
+      user = UserModel(
         uid: user!.uid,
         username: updatedData['username'],
         email: updatedData['email'],
@@ -196,6 +196,28 @@ class UserProvider extends ChangeNotifier {
       print("User details updated successfully");
     } catch (error) {
       print("Error updating user details: $error");
+      throw error;
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> updatePassword(String newPassword) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      final currentUser = _auth.currentUser;
+      if (currentUser == null) {
+        throw Exception("No user is logged in");
+      }
+
+      await _firebaseService.updatePassword(newPassword);
+
+      print("Password updated successfully");
+    } catch (error) {
+      print("Error updating password: $error");
       throw error;
     } finally {
       isLoading = false;

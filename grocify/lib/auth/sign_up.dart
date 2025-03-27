@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocify/auth/login.dart';
 import 'package:grocify/main.dart';
-import 'package:grocify/model/user.dart';
+import 'package:grocify/model/user_model.dart';
 import 'package:grocify/providers/user_provider.dart';
 import 'package:grocify/widgets/auth/alert_dialog.dart';
 import 'package:grocify/widgets/image_picker.dart';
@@ -41,7 +41,7 @@ class _SignUpState extends State<SignUp> {
       }
 
       try {
-        User user = User(
+        UserModel user = UserModel(
           uid: "",
           username: _nameController.text,
           email: _emailController.text,
