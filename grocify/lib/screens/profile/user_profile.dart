@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocify/auth/login.dart';
+import 'package:grocify/main.dart';
+import 'package:grocify/providers/navigation_provider.dart';
 import 'package:grocify/services/auth_service.dart';
 import 'package:grocify/widgets/profile/password_section.dart';
 import 'package:grocify/widgets/profile/personal_info_card.dart';
 import 'package:grocify/widgets/profile/profile_header.dart';
 import 'package:grocify/widgets/section_tile.dart';
+import 'package:provider/provider.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
@@ -70,9 +73,13 @@ class _UserProfileState extends State<UserProfile> {
                       child: ElevatedButton(
                         onPressed: () async {
                           await AuthService().logout();
+                          context.read<NavigationProvider>().updateIndex(0);
                           print("Developed by WorkSync");
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (ctx) => const Login()),
+                          Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                              builder: (context) => const MyApp(),
+                            ),
+                            (route) => false,
                           );
                         },
                         style: ElevatedButton.styleFrom(

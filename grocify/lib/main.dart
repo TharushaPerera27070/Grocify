@@ -5,6 +5,7 @@ import 'package:grocify/auth/login.dart';
 import 'package:grocify/firebase_options.dart';
 import 'package:grocify/providers/navigation_provider.dart';
 import 'package:grocify/providers/navigation_provider_admin.dart';
+import 'package:grocify/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:grocify/base.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => NavigationProvider()),
         ChangeNotifierProvider(create: (context) => NavigationProviderAdmin()),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

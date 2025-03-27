@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grocify/main.dart';
 import 'package:grocify/widgets/profile/profile_header.dart';
 
 class AdminProfile extends StatefulWidget {
@@ -63,6 +64,10 @@ class _AdminProfileState extends State<AdminProfile> {
                 child: ElevatedButton(
                   onPressed: () {
                     print("Developed by WaveLoop");
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => const MyApp()),
+                      (route) => false,
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,

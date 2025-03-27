@@ -13,7 +13,6 @@ class Base extends StatefulWidget {
 
 class _BaseState extends State<Base> {
   @override
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: context.watch<NavigationProvider>().currentScreen,

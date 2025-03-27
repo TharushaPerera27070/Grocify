@@ -47,6 +47,8 @@ dependencies:
   flutter_native_splash: ^2.4.4
   google_nav_bar: ^5.0.7
   fluttertoast: ^8.2.12
+  dio: ^5.8.0+1
+  flutter_stripe: ^11.4.0
 
 dev_dependencies:
   flutter_test:

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocify/data/shop.dart';
 import 'package:grocify/model/shop.dart';
+import 'package:grocify/widgets/auth/alert_dialog.dart';
 import 'package:grocify/widgets/product_details/product_card.dart';
 
 class Home extends StatefulWidget {
@@ -20,12 +21,12 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    super.initState();
     _displayedProducts = ProductData.getAllProducts();
 
     _searchController.addListener(() {
       _filterProducts();
     });
+    super.initState();
   }
 
   void _filterProducts() {
