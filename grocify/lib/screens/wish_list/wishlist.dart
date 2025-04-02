@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocify/data/shop.dart';
+import 'package:grocify/providers/admin_provider.dart';
 import 'package:grocify/widgets/product_details/product_card.dart';
+import 'package:provider/provider.dart';
 
 class Wishlist extends StatefulWidget {
   const Wishlist({super.key});
@@ -13,8 +15,7 @@ class Wishlist extends StatefulWidget {
 class _WishlistState extends State<Wishlist> {
   @override
   Widget build(BuildContext context) {
-    final favorites = ProductData.favorites;
-
+    final favorites = context.watch<AdminProvider>().wishlist;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

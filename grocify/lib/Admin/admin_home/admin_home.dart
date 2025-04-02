@@ -1,10 +1,10 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocify/Admin/admin_home/add_product_page.dart';
 import 'package:grocify/data/shop.dart';
 import 'package:grocify/model/shop.dart';
+import 'package:grocify/providers/admin_provider.dart';
+import 'package:provider/provider.dart';
 
 class AdminHome extends StatefulWidget {
   const AdminHome({super.key});
@@ -105,10 +105,10 @@ class _AdminHomeState extends State<AdminHome> {
         _buildStatCard(
           icon: Icons.shopping_bag,
           title: 'Total Products',
-          value: totalProducts.toString(),
+          value: context.watch<AdminProvider>().products.length.toString(),
         ),
         const SizedBox(height: 16),
-        _buildStatCard(icon: Icons.category, title: 'Categories', value: '5'),
+        _buildStatCard(icon: Icons.category, title: 'Categories', value: '3'),
         const SizedBox(height: 16),
         _buildStatCard(icon: Icons.shopping_cart, title: 'Orders', value: '23'),
       ],

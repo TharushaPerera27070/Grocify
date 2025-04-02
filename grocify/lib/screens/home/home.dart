@@ -2,9 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocify/data/shop.dart';
+import 'package:grocify/model/product_model.dart';
 import 'package:grocify/model/shop.dart';
+import 'package:grocify/providers/admin_provider.dart';
 import 'package:grocify/widgets/auth/alert_dialog.dart';
 import 'package:grocify/widgets/product_details/product_card.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -15,13 +18,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   String _selectedCategory = 'All';
-  List<Product> _displayedProducts = [];
+  List<ProductModel> _displayedProducts = [];
   final TextEditingController _searchController = TextEditingController();
   String _sortOption = 'Newest';
 
   @override
   void initState() {
-    _displayedProducts = ProductData.getAllProducts();
+    _getProducts();
 
     _searchController.addListener(() {
       _filterProducts();
@@ -29,22 +32,42 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+  Future<void> _getProducts() async {
+    try {
+      await context.read<AdminProvider>().getProducts();
+      _displayedProducts = context.read<AdminProvider>().products;
+      print('Products: ${_displayedProducts.map((p) => p.name).toList()}');
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error fetching products: $e'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
+
   void _filterProducts() {
     final query = _searchController.text.toLowerCase();
+    final allProducts = context.read<AdminProvider>().products;
     setState(() {
       if (query.isEmpty && _selectedCategory == 'All') {
-        _displayedProducts = ProductData.getAllProducts();
+        _displayedProducts = allProducts;
       } else if (query.isEmpty) {
-        _displayedProducts = ProductData.getProductsByCategory(
-          _selectedCategory,
-        );
+        _displayedProducts =
+            allProducts.where((p) => p.category == _selectedCategory).toList();
       } else if (_selectedCategory == 'All') {
-        _displayedProducts = ProductData.searchProducts(query);
+        _displayedProducts =
+            allProducts
+                .where(
+                  (p) =>
+                      p.name.toLowerCase().contains(query) ||
+                      p.category.toLowerCase().contains(query),
+                )
+                .toList();
       } else {
         _displayedProducts =
-            ProductData.searchProducts(
-              query,
-            ).where((p) => p.category == _selectedCategory).toList();
+            allProducts.where((p) => p.category == _selectedCategory).toList();
       }
 
       // Apply sorting
@@ -145,17 +168,17 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.mic, color: Colors.white, size: 28),
-                  ),
-                ),
+                // const SizedBox(width: 16),
+                // Container(
+                //   decoration: BoxDecoration(
+                //     color: Colors.green,
+                //     borderRadius: BorderRadius.circular(5),
+                //   ),
+                //   child: IconButton(
+                //     onPressed: () {},
+                //     icon: Icon(Icons.mic, color: Colors.white, size: 28),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -307,7 +330,10 @@ class _HomeState extends State<Home> {
                             _searchController.clear();
                             setState(() {
                               _selectedCategory = 'All';
-                              _displayedProducts = ProductData.getAllProducts();
+                              _displayedProducts =
+                                  context
+                                      .read<AdminProvider>()
+                                      .products; // Reset to all products
                             });
                           },
                           child: Text(
@@ -323,26 +349,36 @@ class _HomeState extends State<Home> {
                   ),
                 ),
 
-                // Product grid
-                _displayedProducts.isEmpty
-                    ? _buildNoProductsFound()
-                    : GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      padding: const EdgeInsets.all(16),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.75,
-                            crossAxisSpacing: 16,
-                            mainAxisSpacing: 16,
-                          ),
-                      itemCount: _displayedProducts.length,
-                      itemBuilder: (context, index) {
-                        final product = _displayedProducts[index];
-                        return ProductCard(product: product);
-                      },
+                if (!context.watch<AdminProvider>().isLoading)
+                  // Product grid
+                  _displayedProducts.isEmpty
+                      ? _buildNoProductsFound()
+                      : GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.all(16),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.75,
+                              crossAxisSpacing: 16,
+                              mainAxisSpacing: 16,
+                            ),
+                        itemCount: _displayedProducts.length,
+                        itemBuilder: (context, index) {
+                          final product = _displayedProducts[index];
+                          return ProductCard(product: product);
+                        },
+                      ),
+
+                if (context.watch<AdminProvider>().isLoading)
+                  Center(
+                    child: SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(color: Colors.green),
                     ),
+                  ),
               ],
             ),
           ),
@@ -352,7 +388,7 @@ class _HomeState extends State<Home> {
   }
 
   // ignore: unused_element
-  Widget _buildProductCard(Product product) {
+  Widget _buildProductCard(ProductModel product) {
     return ProductCard(product: product);
   }
 

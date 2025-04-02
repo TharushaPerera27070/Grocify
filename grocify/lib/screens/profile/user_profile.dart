@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grocify/auth/login.dart';
 import 'package:grocify/main.dart';
 import 'package:grocify/providers/navigation_provider.dart';
 import 'package:grocify/providers/user_provider.dart';
@@ -19,12 +18,6 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  final String userName = "Kavya Sarameweera";
-  final String userEmail = "Kota@Kalthara.com";
-  final String userPhone = "+94 77 123 4567";
-  final String userProfileImage =
-      "assets/WhatsApp Image 2024-10-25 at 17.46.50_9440fb7e.jpg";
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

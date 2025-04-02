@@ -45,15 +45,15 @@ class RelatedProductsSection extends StatelessWidget {
 
                 return GestureDetector(
                   onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder:
-                            (context) => ProductDetailsPage(
-                              productId: relatedProduct.id,
-                            ),
-                      ),
-                    );
+                    // Navigator.pushReplacement(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder:
+                    //         (context) => ProductDetailsPage(
+                    //           product: relatedProduct.id,
+                    //         ),
+                    //   ),
+                    // );
                   },
                   child: Container(
                     width: 160,

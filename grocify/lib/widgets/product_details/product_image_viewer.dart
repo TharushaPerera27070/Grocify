@@ -2,17 +2,8 @@ import 'package:flutter/material.dart';
 
 class ProductImageViewer extends StatefulWidget {
   final String mainImage;
-  final List<String>? additionalImages;
-  final Function(int) onImageSelected;
-  final int selectedIndex;
 
-  const ProductImageViewer({
-    super.key,
-    required this.mainImage,
-    this.additionalImages,
-    required this.onImageSelected,
-    required this.selectedIndex,
-  });
+  const ProductImageViewer({super.key, required this.mainImage});
 
   @override
   State<ProductImageViewer> createState() => _ProductImageViewerState();
@@ -21,68 +12,27 @@ class ProductImageViewer extends StatefulWidget {
 class _ProductImageViewerState extends State<ProductImageViewer> {
   @override
   Widget build(BuildContext context) {
-    // List of all images (main + additional)
-    final allImages = [widget.mainImage];
-    if (widget.additionalImages != null) {
-      allImages.addAll(widget.additionalImages!);
-    }
-
     return Column(
       children: [
         // Main image
         SizedBox(
           height: 300,
           width: double.infinity,
-          child: Image.asset(
-            allImages[widget.selectedIndex],
-            fit: BoxFit.contain,
-            errorBuilder: (context, error, stackTrace) {
-              return Container(
-                color: Colors.grey[200],
-                child: Center(
-                  child: Icon(
-                    Icons.image_not_supported_outlined,
-                    size: 64,
-                    color: Colors.grey[400],
-                  ),
-                ),
-              );
+          child: FadeInImage.assetNetwork(
+            placeholder: 'assets/Grocify_bg.png',
+            image: widget.mainImage,
+            width: double.infinity,
+            fit: BoxFit.cover,
+            imageErrorBuilder: (context, error, stackTrace) {
+              return const Icon(Icons.error);
             },
+            placeholderFit: BoxFit.cover,
+            fadeInDuration: const Duration(milliseconds: 500),
+            fadeInCurve: Curves.easeIn,
           ),
         ),
 
         // Image selector
-        if (allImages.length > 1)
-          Container(
-            height: 80,
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: allImages.length,
-              itemBuilder: (context, index) {
-                final isSelected = widget.selectedIndex == index;
-                return GestureDetector(
-                  onTap: () => widget.onImageSelected(index),
-                  child: Container(
-                    width: 70,
-                    margin: const EdgeInsets.only(right: 8),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: isSelected ? Colors.green : Colors.grey.shade300,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(6),
-                      child: Image.asset(allImages[index], fit: BoxFit.cover),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
       ],
     );
   }

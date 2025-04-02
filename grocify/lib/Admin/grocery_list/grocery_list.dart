@@ -1,8 +1,9 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grocify/data/shop.dart';
-import 'package:grocify/model/shop.dart'; // Import for product data
+import 'package:grocify/model/product_model.dart';
+import 'package:grocify/providers/admin_provider.dart';
+import 'package:provider/provider.dart'; // Import for product data
 
 class GroceryList extends StatefulWidget {
   const GroceryList({super.key});
@@ -12,9 +13,8 @@ class GroceryList extends StatefulWidget {
 }
 
 class _GroceryListState extends State<GroceryList> {
-  List<Product> get allProducts {
-    final products = ProductData.getAllProducts();
-    products.sort((a, b) => int.parse(b.id).compareTo(int.parse(a.id)));
+  List<ProductModel> get allProducts {
+    final products = context.watch<AdminProvider>().products;
     return products;
   }
 
@@ -27,7 +27,7 @@ class _GroceryListState extends State<GroceryList> {
     super.dispose();
   }
 
-  List<Product> get filteredProducts {
+  List<ProductModel> get filteredProducts {
     if (_searchQuery.isEmpty) {
       return allProducts;
     }
@@ -44,6 +44,39 @@ class _GroceryListState extends State<GroceryList> {
   }
 
   @override
+  void initState() {
+    _getProducts();
+    super.initState();
+  }
+
+  Future<void> _getProducts() async {
+    try {
+      await context.read<AdminProvider>().getProducts();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error fetching products: $e'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
+
+  Future<void> _deleteProduct(ProductModel product) async {
+    try {
+      await context.read<AdminProvider>().deleteProduct(product);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error deleting product: $e'),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -57,53 +90,73 @@ class _GroceryListState extends State<GroceryList> {
         elevation: 0,
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            color: Colors.white,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    height: 48,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 240, 240, 240),
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: Colors.green, width: 1.5),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
+      body:
+          context.watch<AdminProvider>().isLoading
+              ? Center(
+                child: SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(color: Colors.green),
+                ),
+              )
+              : Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
+                    ),
+                    color: Colors.white,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 48,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 240, 240, 240),
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                color: Colors.green,
+                                width: 1.5,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.05),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: TextField(
+                              controller: _searchController,
+                              onChanged: (value) {
+                                setState(() {
+                                  _searchQuery = value;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                hintText: 'Search for products...',
+                                hintStyle: GoogleFonts.poppins(
+                                  color: Colors.grey[600],
+                                ),
+                                prefixIcon: Icon(
+                                  Icons.search,
+                                  color: Colors.grey[600],
+                                ),
+                                border: InputBorder.none,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 11,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                    child: TextField(
-                      controller: _searchController,
-                      onChanged: (value) {
-                        setState(() {
-                          _searchQuery = value;
-                        });
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'Search for products...',
-                        hintStyle: GoogleFonts.poppins(color: Colors.grey[600]),
-                        prefixIcon: Icon(Icons.search, color: Colors.grey[600]),
-                        border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 11,
-                        ),
-                      ),
-                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(child: _buildProductsList()),
-        ],
-      ),
+                  Expanded(child: _buildProductsList()),
+                ],
+              ),
     );
   }
 
@@ -144,11 +197,16 @@ class _GroceryListState extends State<GroceryList> {
             ),
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: Image.asset(
-                product.imageUrl,
-                width: 70,
-                height: 70,
+              child: FadeInImage.assetNetwork(
+                placeholder: 'assets/Grocify_bg.png',
+                image: product.imageURL,
                 fit: BoxFit.cover,
+                imageErrorBuilder: (context, error, stackTrace) {
+                  return const Icon(Icons.error);
+                },
+                placeholderFit: BoxFit.cover,
+                fadeInDuration: const Duration(milliseconds: 500),
+                fadeInCurve: Curves.easeIn,
               ),
             ),
             title: Text(
@@ -162,7 +220,7 @@ class _GroceryListState extends State<GroceryList> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Rs.${product.price.toStringAsFixed(2)}',
+                  'Rs.${product.price}',
                   style: GoogleFonts.poppins(
                     color: Colors.black,
                     fontWeight: FontWeight.w500,
@@ -197,7 +255,7 @@ class _GroceryListState extends State<GroceryList> {
     );
   }
 
-  void _showDeleteConfirmation(BuildContext context, Product product) {
+  void _showDeleteConfirmation(BuildContext context, ProductModel product) {
     showDialog(
       context: context,
       builder:
@@ -220,11 +278,9 @@ class _GroceryListState extends State<GroceryList> {
                 ),
               ),
               TextButton(
-                onPressed: () {
-                  // Implement delete functionality
-                  // ProductData.deleteProduct(product.id);
-                  setState(() {});
-                  Navigator.pop(context);
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  await _deleteProduct(product);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('${product.name} has been deleted'),

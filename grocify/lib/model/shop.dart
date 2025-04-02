@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Product {
   final String id;
   final String name;
@@ -52,4 +54,17 @@ class Review {
     this.images,
     this.helpfulCount = 0,
   });
+
+  factory Review.fromMap(Map<String, dynamic> map) {
+    return Review(
+      id: map['id'] ?? '',
+      userName: map['userName'] ?? '',
+      userImage: map['userImage'],
+      rating: (map['rating'] ?? 0).toDouble(),
+      comment: map['comment'] ?? '',
+      date: (map['date'] as Timestamp).toDate(),
+      images: List<String>.from(map['images'] ?? []),
+      helpfulCount: map['helpfulCount'] ?? 0,
+    );
+  }
 }

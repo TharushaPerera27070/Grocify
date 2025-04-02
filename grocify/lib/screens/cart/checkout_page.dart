@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocify/data/shop.dart';
+import 'package:grocify/main.dart';
 import 'package:grocify/model/delivery_options.dart';
+import 'package:grocify/providers/admin_provider.dart';
+import 'package:grocify/providers/user_provider.dart';
+import 'package:grocify/services/stripe_services.dart';
 import 'package:grocify/widgets/cart/checkout_bottom_bar.dart';
 import 'package:grocify/widgets/cart/delivery_options.dart';
 import 'package:grocify/widgets/cart/order_summery.dart';
 import 'package:grocify/widgets/cart/payment_method.dart';
 import 'package:grocify/widgets/cart/shipping_info.dart';
 import 'package:grocify/widgets/section_tile.dart';
+import 'package:provider/provider.dart';
 
 class CheckoutPage extends StatefulWidget {
-  const CheckoutPage({super.key});
+  const CheckoutPage({super.key, required this.cartTotal});
+
+  final int cartTotal;
 
   @override
   State<CheckoutPage> createState() => _CheckoutPageState();
@@ -22,9 +29,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
   final List<String> _paymentMethods = [
     'Credit/Debit Card',
     'Cash on Delivery',
-    'Mobile Wallet',
   ];
-  String _selectedPaymentMethod = 'Credit Card';
+  String _selectedPaymentMethod = 'Credit/Debit Card';
 
   final List<DeliveryOption> _deliveryOptions = [
     DeliveryOption(
@@ -61,8 +67,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
     super.initState();
     _selectedDeliveryOption = _deliveryOptions.first;
 
-    _nameController.text = 'John Doe';
-    _phoneController.text = '0771234567';
+    final user = context.read<UserProvider>().user;
+
+    _nameController.text = user!.username;
+    _phoneController.text = user.contactNumber;
     _addressController.text = '123 Main Street, Apartment 4B';
     _cityController.text = 'Colombo';
     _postalCodeController.text = '00100';
@@ -82,11 +90,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
     super.dispose();
   }
 
-  double get _subtotal => ProductData.cartTotal;
+  double get _subtotal => widget.cartTotal.toDouble();
   double get _deliveryFee => _selectedDeliveryOption?.price ?? 0;
   double get _total => _subtotal + _deliveryFee;
 
-  void _processPayment() {
+  void _processPayment() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -108,16 +116,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
       _isProcessing = true;
     });
 
-    // Simulate payment processing
-    Future.delayed(const Duration(seconds: 2), () {
-      // If payment is successful
-      setState(() {
-        _isProcessing = false;
-      });
+    await StripeService.instance.makePayment(
+      context.read<UserProvider>().user!.username,
+    );
 
-      // Show success dialog
-      _showOrderSuccessDialog();
+    setState(() {
+      _isProcessing = false;
     });
+
+    _showOrderSuccessDialog();
   }
 
   void _showOrderSuccessDialog() {
@@ -160,9 +167,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
             actions: [
               TextButton(
                 onPressed: () {
-                  // Clear cart and go back to home
-                  ProductData.clearCart();
-                  Navigator.popUntil(context, (route) => route.isFirst);
+                  context.read<AdminProvider>().clearCart();
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const MyApp()),
+                    (route) => false,
+                  );
                 },
                 child: Text(
                   'Continue Shopping',
@@ -176,7 +185,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    final cartItems = ProductData.cartItems;
+    final cartItems = context.watch<AdminProvider>().cart;
 
     return Scaffold(
       backgroundColor: Colors.white,

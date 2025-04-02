@@ -69,6 +69,17 @@ class _BaseState extends State<Base> {
                 ),
               ),
               GButton(
+                icon: Icons.search,
+                iconSize: 30,
+                text: 'Search',
+                textStyle: GoogleFonts.poppins(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.5,
+                  color: Colors.white,
+                ),
+              ),
+              GButton(
                 icon: Icons.favorite_border,
                 iconSize: 30,
                 text: 'Wishlist',

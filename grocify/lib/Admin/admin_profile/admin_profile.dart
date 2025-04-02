@@ -14,7 +14,7 @@ class AdminProfile extends StatefulWidget {
 
 class _AdminProfileState extends State<AdminProfile> {
   final Map<String, String> _adminData = {
-    'name': 'Kasun Sajana',
+    'name': 'System Admin',
     'jobTitle': 'Store Administrator',
     'email': 'admin@grocify.com',
     'role': 'Store Administrator',
@@ -50,9 +50,9 @@ class _AdminProfileState extends State<AdminProfile> {
           child: Column(
             children: [
               ProfileHeader(
-                userName: 'Kasun Sajana',
+                userName: 'System Admin',
                 userProfileImage:
-                    'assets/WhatsApp Image 2024-10-25 at 17.46.50_9440fb7e.jpg',
+                    "https://static.vecteezy.com/system/resources/previews/012/210/707/non_2x/worker-employee-businessman-avatar-profile-icon-vector.jpg",
               ),
               const SizedBox(height: 20),
               _buildAdminDetails(),

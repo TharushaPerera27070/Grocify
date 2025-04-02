@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grocify/providers/admin_provider.dart';
+import 'package:provider/provider.dart';
 
 class BottomPurchaseBar extends StatelessWidget {
   final bool inStock;
@@ -58,19 +60,29 @@ class BottomPurchaseBar extends StatelessWidget {
             child: ElevatedButton(
               onPressed: inStock ? onBuyNow : null,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
+                backgroundColor:
+                    context.watch<AdminProvider>().isLoading
+                        ? Colors.grey
+                        : Colors.green,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 12),
               ),
-              child: Text(
-                'Buy Now',
-                style: GoogleFonts.poppins(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              child:
+                  context.watch<AdminProvider>().isLoading
+                      ? SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(color: Colors.white),
+                      )
+                      : Text(
+                        'Buy Now',
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
             ),
           ),
         ],

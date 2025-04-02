@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocify/data/shop.dart';
+import 'package:grocify/providers/admin_provider.dart';
 import 'package:grocify/screens/cart/checkout_page.dart';
 import 'package:grocify/widgets/cart/cart_item_card.dart';
+import 'package:provider/provider.dart';
 
 class Cart extends StatefulWidget {
   const Cart({super.key});
@@ -15,8 +17,11 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
-    final cartItems = ProductData.cartItems;
-    final cartTotal = ProductData.cartTotal;
+    final cartItems = context.watch<AdminProvider>().cart;
+    final cartTotal = cartItems.fold<double>(
+      0,
+      (total, item) => total + double.parse(item.price),
+    );
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -65,9 +70,8 @@ class _CartState extends State<Cart> {
                           ),
                           TextButton(
                             onPressed: () {
-                              ProductData.clearCart();
+                              context.read<AdminProvider>().clearCart();
                               Navigator.pop(context);
-                              setState(() {});
                             },
                             child: Text(
                               'Clear',
@@ -171,7 +175,10 @@ class _CartState extends State<Cart> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const CheckoutPage(),
+                                builder:
+                                    (context) => CheckoutPage(
+                                      cartTotal: cartTotal.toInt(),
+                                    ),
                               ),
                             );
                           },

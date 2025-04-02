@@ -2,10 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grocify/model/product_model.dart';
 import 'package:grocify/model/shop.dart';
 
 class ProductInfoSection extends StatefulWidget {
-  final Product product;
+  final ProductModel product;
   final int quantity;
   final Function(int) onQuantityChanged;
 
@@ -89,24 +90,13 @@ class _ProductInfoSectionState extends State<ProductInfoSection> {
           Row(
             children: [
               Text(
-                '\Rs.${widget.product.price.toStringAsFixed(2)}',
+                '\Rs.${widget.product.price}',
                 style: GoogleFonts.poppins(
                   fontSize: 28,
                   fontWeight: FontWeight.w500,
                   color: Colors.black,
                 ),
               ),
-              const SizedBox(width: 12),
-              if (widget.product.originalPrice != null &&
-                  widget.product.originalPrice! > widget.product.price)
-                Text(
-                  '\Rs.${widget.product.originalPrice!.toStringAsFixed(2)}',
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    decoration: TextDecoration.lineThrough,
-                    color: Colors.grey[500],
-                  ),
-                ),
             ],
           ),
 
@@ -115,15 +105,25 @@ class _ProductInfoSectionState extends State<ProductInfoSection> {
           Row(
             children: [
               Icon(
-                widget.product.inStock ? Icons.check_circle : Icons.cancel,
-                color: widget.product.inStock ? Colors.green : Colors.red,
+                widget.product.isAvailable == "true"
+                    ? Icons.check_circle
+                    : Icons.cancel,
+                color:
+                    widget.product.isAvailable == "true"
+                        ? Colors.green
+                        : Colors.red,
                 size: 16,
               ),
               const SizedBox(width: 4),
               Text(
-                widget.product.inStock ? 'In Stock' : 'Out of Stock',
+                widget.product.isAvailable == "true"
+                    ? 'In Stock'
+                    : 'Out of Stock',
                 style: GoogleFonts.poppins(
-                  color: widget.product.inStock ? Colors.green : Colors.red,
+                  color:
+                      widget.product.isAvailable == "true"
+                          ? Colors.green
+                          : Colors.red,
                   fontWeight: FontWeight.w500,
                 ),
               ),

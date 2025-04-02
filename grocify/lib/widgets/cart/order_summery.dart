@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocify/data/shop.dart';
+import 'package:grocify/model/product_model.dart';
 
 class OrderSummary extends StatelessWidget {
-  final List<CartItem> cartItems;
+  final List<ProductModel> cartItems;
   final double subtotal;
   final double deliveryFee;
   final double total;
@@ -44,7 +45,7 @@ class OrderSummary extends StatelessWidget {
     );
   }
 
-  Widget _buildOrderItem(CartItem item) {
+  Widget _buildOrderItem(ProductModel item) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Row(
@@ -53,8 +54,8 @@ class OrderSummary extends StatelessWidget {
           // Product image
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Image.asset(
-              item.product.imageUrl,
+            child: Image.network(
+              item.imageURL,
               width: 60,
               height: 60,
               fit: BoxFit.cover,
@@ -69,14 +70,14 @@ class OrderSummary extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  item.product.name,
+                  item.name,
                   style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Quantity: ${item.quantity}',
+                  'Quantity: ${5}',
                   style: GoogleFonts.poppins(
                     fontSize: 12,
                     color: Colors.grey[700],
@@ -88,7 +89,7 @@ class OrderSummary extends StatelessWidget {
 
           // Price
           Text(
-            'Rs.${(item.product.price * item.quantity).toStringAsFixed(2)}',
+            'Rs.${item.price}',
             style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
           ),
         ],

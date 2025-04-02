@@ -1,12 +1,13 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grocify/data/shop.dart';
+import 'package:grocify/model/product_model.dart';
+import 'package:grocify/providers/admin_provider.dart';
 import 'package:grocify/screens/home/product_detail_page.dart';
-import 'package:grocify/model/shop.dart';
+import 'package:provider/provider.dart';
 
 class ProductCard extends StatelessWidget {
-  final Product product;
+  final ProductModel product;
 
   const ProductCard({super.key, required this.product});
 
@@ -17,7 +18,7 @@ class ProductCard extends StatelessWidget {
           () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ProductDetailsPage(productId: product.id),
+              builder: (context) => ProductDetailsPage(product: product),
             ),
           ),
       child: Container(
@@ -42,46 +43,20 @@ class ProductCard extends StatelessWidget {
                     borderRadius: const BorderRadius.vertical(
                       top: Radius.circular(12),
                     ),
-                    child: Image.asset(
-                      product.imageUrl,
+                    child: FadeInImage.assetNetwork(
+                      placeholder: 'assets/Grocify_bg.png',
+                      image: product.imageURL,
                       width: double.infinity,
-                      height: double.infinity,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          color: Colors.grey[200],
-                          child: Icon(
-                            Icons.image_not_supported_outlined,
-                            size: 40,
-                            color: Colors.grey[400],
-                          ),
-                        );
+                      imageErrorBuilder: (context, error, stackTrace) {
+                        return const Icon(Icons.error);
                       },
+                      placeholderFit: BoxFit.cover,
+                      fadeInDuration: const Duration(milliseconds: 500),
+                      fadeInCurve: Curves.easeIn,
                     ),
                   ),
-                  if (product.originalPrice != null)
-                    Positioned(
-                      top: 8,
-                      left: 8,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          'SALE',
-                          style: GoogleFonts.poppins(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
-                    ),
+
                   Positioned(
                     bottom: 8,
                     right: 8,
@@ -121,23 +96,10 @@ class ProductCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (product.originalPrice != null) ...[
-                        Text(
-                          '\Rs.${product.originalPrice!.toStringAsFixed(2)}',
-                          style: GoogleFonts.poppins(
-                            decoration: TextDecoration.lineThrough,
-                            color: Colors.grey[600],
-                            fontSize: 12,
-                          ),
-                        ),
-                      ],
                       Text(
-                        '\Rs.${product.price.toStringAsFixed(2)}',
+                        '\Rs.${product.price}',
                         style: GoogleFonts.poppins(
-                          color:
-                              product.originalPrice != null
-                                  ? Colors.red
-                                  : Colors.black,
+                          color: Colors.black,
                           fontWeight: FontWeight.w500,
                         ),
                         maxLines: 1,
@@ -180,18 +142,36 @@ class ProductCard extends StatelessWidget {
                             color: Colors.white,
                           ),
                           onPressed: () {
-                            ProductData.addToCart(product, 1);
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Added ${product.name} to cart',
-                                  style: GoogleFonts.poppins(),
+                            bool isInCart = context
+                                .read<AdminProvider>()
+                                .cart
+                                .any((item) => item.id == product.id);
+                            if (!isInCart) {
+                              context.read<AdminProvider>().addToCart(product);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Added to cart',
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                  backgroundColor: Colors.green,
+                                  duration: const Duration(seconds: 2),
+                                  behavior: SnackBarBehavior.floating,
                                 ),
-                                backgroundColor: Colors.black,
-                                duration: const Duration(seconds: 2),
-                              ),
-                            );
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Product already in cart',
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                  backgroundColor: Colors.grey,
+                                  duration: const Duration(seconds: 2),
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
+                            }
                           },
                         ),
                       ),

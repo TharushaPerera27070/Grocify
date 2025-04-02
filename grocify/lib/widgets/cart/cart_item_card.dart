@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocify/data/shop.dart';
+import 'package:grocify/model/product_model.dart';
+import 'package:grocify/providers/admin_provider.dart';
+import 'package:provider/provider.dart';
 
-class CartItemCard extends StatelessWidget {
-  final CartItem item;
+class CartItemCard extends StatefulWidget {
+  final ProductModel item;
   final VoidCallback onQuantityChanged;
 
   const CartItemCard({
@@ -13,11 +16,15 @@ class CartItemCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final product = item.product;
+  State<CartItemCard> createState() => _CartItemCardState();
+}
 
+class _CartItemCardState extends State<CartItemCard> {
+  int quantity = 1;
+  @override
+  Widget build(BuildContext context) {
     return Dismissible(
-      key: Key(product.id.toString()),
+      key: Key(widget.item.id),
       background: Container(
         margin: const EdgeInsets.only(bottom: 16),
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -30,8 +37,8 @@ class CartItemCard extends StatelessWidget {
       ),
       direction: DismissDirection.endToStart,
       onDismissed: (direction) {
-        ProductData.removeFromCart(product.id);
-        onQuantityChanged();
+        context.read<AdminProvider>().removeFromCart(widget.item);
+        widget.onQuantityChanged();
       },
       child: Card(
         surfaceTintColor: Colors.green,
@@ -50,11 +57,18 @@ class CartItemCard extends StatelessWidget {
                     topLeft: Radius.circular(12),
                     bottomLeft: Radius.circular(12),
                   ),
-                  child: Image.asset(
-                    product.imageUrl,
+                  child: FadeInImage.assetNetwork(
+                    placeholder: 'assets/Grocify_bg.png',
+                    image: widget.item.imageURL,
                     width: 120,
                     height: 125,
                     fit: BoxFit.cover,
+                    imageErrorBuilder: (context, error, stackTrace) {
+                      return const Icon(Icons.error);
+                    },
+                    placeholderFit: BoxFit.cover,
+                    fadeInDuration: const Duration(milliseconds: 500),
+                    fadeInCurve: Curves.easeIn,
                   ),
                 ),
                 SizedBox(width: 16),
@@ -63,7 +77,7 @@ class CartItemCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      product.name,
+                      widget.item.name,
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w500,
                         fontSize: 17,
@@ -71,7 +85,7 @@ class CartItemCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Rs.${product.price.toStringAsFixed(2)}',
+                      'Rs.${widget.item.price}',
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w500,
                         color: Colors.green,
@@ -79,77 +93,24 @@ class CartItemCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
+                    Container(
+                      color: Colors.amber,
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        "Slide to remove",
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
+                        ),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
                   ],
                 ),
               ],
             ),
+
             // Quantity selector
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Column(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      if (item.quantity > 1) {
-                        ProductData.updateCartItemQuantity(
-                          product.id,
-                          item.quantity - 1,
-                        );
-                      } else {
-                        ProductData.removeFromCart(product.id);
-                      }
-                      onQuantityChanged();
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-
-                      child: const Icon(
-                        Icons.remove,
-                        size: 20,
-                        color: Colors.green,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  // Quantity
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 4,
-                    ),
-
-                    child: Text(
-                      '${item.quantity}',
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 17,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  // Increase button
-                  InkWell(
-                    onTap: () {
-                      ProductData.updateCartItemQuantity(
-                        product.id,
-                        item.quantity + 1,
-                      );
-                      onQuantityChanged();
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-
-                      child: const Icon(
-                        Icons.add,
-                        size: 20,
-                        color: Colors.green,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),

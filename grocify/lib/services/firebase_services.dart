@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:grocify/model/product_model.dart';
 
 import 'package:grocify/model/user_model.dart';
 
@@ -108,6 +109,36 @@ class FirebaseService {
       return docRef;
     } catch (e) {
       throw Exception('Failed to upload document: $e');
+    }
+  }
+
+  Future<DocumentReference> uploadDocumentProduct(
+    String collection,
+    ProductModel productData,
+    String documentId,
+  ) async {
+    try {
+      final docRef = _db.collection(collection).doc(documentId);
+      await docRef.set(productData.toMap());
+      return docRef;
+    } catch (e) {
+      throw Exception('Failed to upload document: $e');
+    }
+  }
+
+  Future<void> deleteProduct(String productId, String imageUrl) async {
+    try {
+      // Delete document from Firestore
+      await _db.collection('Products').doc(productId).delete();
+
+      // Delete image from Storage if URL exists
+      if (imageUrl.isNotEmpty) {
+        // Get reference from the full URL
+        final ref = _storage.refFromURL(imageUrl);
+        await ref.delete();
+      }
+    } catch (e) {
+      throw Exception('Failed to delete product: $e');
     }
   }
 
